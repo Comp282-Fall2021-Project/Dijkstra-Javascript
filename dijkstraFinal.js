@@ -5,17 +5,13 @@
 // adjacency matrix representation
 // of the graph.
 let NO_PARENT = -1;
-let hi = document.getElementById("fname");
-let submit = document.getElementById("result");
-
-submit.addEventListener("click", () => {
 
 	function dijkstraWithoutPrintSolution(adjacencyMatrix,startVertex,endVertex,shortestDistances, parents, option)
 	{
 			let nVertices = adjacencyMatrix[0].length;
 
 			// shortestDistances[i] will hold the
-			// shortest distance from src to i
+			// shortest distance from src to is
 			shortestDistances = new Array(nVertices);
 
 			// added[i] will true if vertex i is
@@ -186,9 +182,9 @@ submit.addEventListener("click", () => {
 	{
 		if(option ==1 )
 		{
-			document.write( "<br>"+"From -> To: " + (startVertex+1) + " -> " + (endVertex+1) + "<br>");
+			console.log("From -> To: " + (startVertex+1) + " -> " + (endVertex+1));
 			//shortest distance
-			document.write("Total Distance: " + distances[endVertex].toFixed(2) + " meters <br>");
+			console.log("Total Distance: " + distances[endVertex]);
 			//prints to the path
 			printPath(endVertex, parents);
 		}
@@ -207,7 +203,7 @@ submit.addEventListener("click", () => {
 				return;
 			}
 			printPath(parents[currentVertex], parents);
-			document.write(currentVertex + 1 +" ");
+			console.log(currentVertex + 1);
 	}
 
 	let INF =  1e7;
@@ -341,12 +337,14 @@ submit.addEventListener("click", () => {
 	map.set("B6", 82);
 	map.set("E6", 85);
 
-	//let hi = "JR BH SH";
+
+
+	let hi = "JD LO";
 	//console log 
-	//const words = hi.split(' ');
+	const words = hi.split(' ');
 
 	//GUI log
-	const words = hi.value.split(' ');
+	//const words = hi.value.split(' ');
 
 	//determining parking location start vertex in a sense
     // B1: 10
@@ -364,25 +362,30 @@ submit.addEventListener("click", () => {
     let startCompare = dijkstra(graph,map.get(park[0]),dis2,shortestDistances,parents,0);
     let parkingLocationString;
 	let parkingLocate;
+	console.log("Comparing Distances");
     for(let i = 1; i < park.length; i++){
         let dis1 = map.get(park[i]);
         //gets the first entry of the word
-
+		console.log("Getting Location: "+ dis1);
         //use djikstra to determine which parking lot is the shortest from parking lot
+		console.log("Starting Distance: " + startCompare);
         let distCompare = dijkstra(graph,dis1,dis2,shortestDistances,parents,0);
+		console.log("Distance Compared: " + distCompare);
+
         if(distCompare < startCompare)
         {
-			startCompare = distCompare;
-            parkingLocate = map.get(park[i]);
+			parkingLocate = map.get(park[i]);
+            startCompare = distCompare;
             parkingLocationString = park[i];
+			console.log("Start Compared: " + startCompare);
         }
+
     }
-    document.write("<br>"+ "Closest Park Location At: " + parkingLocationString);
+    console.log("Closest Park Location At: " + parkingLocationString);
     startVertex = parkingLocate;
     //endVertex = words[words.length-1];
-	words.push(parkingLocationString);
 	var functStart = new Date().getTime();
-	document.write("<br>" + 'Testing Execution Time for Path Provided' + "<br>")
+	console.log( 'Testing Execution Time for Path Provided');
     for(let i = 0; i < words.length; i++){
         endVertex = map.get(words[i]);
         dijkstra(graph,startVertex, endVertex,shortestDistances,parents,1);
@@ -390,22 +393,15 @@ submit.addEventListener("click", () => {
     }
 	var funcEnd = new Date().getTime();
 	var funcTime = funcEnd - functStart;
-	document.write("<br>"+ 'Execution time: ' + funcTime + " milliseconds" + "<br>");
+	console.log('Execution time: ' + funcTime + " milliseconds" );
+
 
 	var start = new Date().getTime();
-	document.write("<br>" + 'Testing Execution Time from starting point at 0 to 91' + "<br>")
 	dijkstraWithoutPrintSolution(graph,0,91,shortestDistances,parents,0);
 	var end = new Date().getTime();
 	var time = end - start;
-	document.write("<br>"+ 'Execution time: ' + time + " milliseconds" + "<br>");
+	console.log('Execution time: ' + time + " milliseconds");
 	
-	
+
 	//Dijkstra Runtime Complexity: O(V^2) for matrix representation 
 	//91 vertices = 44 milliseconds
-
-	let something = document.createElement('img');
-
-	something.src = "Mapping for comp282.png";
-	something.style.height = "1000px";
-	document.body.appendChild(something);
-})
